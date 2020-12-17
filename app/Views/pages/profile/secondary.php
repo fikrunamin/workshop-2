@@ -1,0 +1,1 @@
+<?= view('components/secondary_title', ['heading' => 'Profile Detail']); ?>

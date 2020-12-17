@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Controllers;
 
 /**
@@ -43,4 +44,21 @@ class BaseController extends Controller
 		// $this->session = \Config\Services::session();
 	}
 
+	public function groupArray($arrays, $key)
+	{
+		$result = array();
+		foreach ($arrays as $array) {
+			$result[$array[$key]][] = $array;
+		}
+		return $result;
+	}
+
+	public function groupArrayDate($arrays, $key)
+	{
+		$result = array();
+		foreach ($arrays as $array) {
+			$result[\Carbon\Carbon::parse($array[$key])->format('d F Y')][] = $array;
+		}
+		return $result;
+	}
 }
