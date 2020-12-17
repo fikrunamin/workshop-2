@@ -4,9 +4,22 @@ namespace App\Controllers;
 
 class Auth extends BaseController
 {
-    public function index()
+    public function login()
     {
-        return view('welcome_message');
+        $data = [
+            'title' => 'Login'
+        ];
+        echo view('auth/login', $data);
+    }
+    public function register()
+    {
+        $data = [
+            'title' => 'Create Account'
+        ];
+        echo view('auth/register', $data);
+    }
+    public function logout()
+    {
     }
 
     //--------------------------------------------------------------------

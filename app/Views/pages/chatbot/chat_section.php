@@ -1,4 +1,4 @@
-<div class="grid grid-cols-1 flex flex-wrap content-between h-screen max-h-screen overflow-y-auto">
+<div id="chat_section" class="grid grid-cols-1 flex flex-wrap content-between h-screen max-h-screen overflow-y-auto">
     <div class="bg-blue-500 py-10 shadow-md px-5 flex w-full sticky top-0">
         <div class="text-blue-500 bg-white rounded-full h-14 w-14 flex items-center justify-center duration-200 inline-block" wire:click="switch_page('clinic')">
             <svg id="Layer_1" enable-background="new 0 0 128 128" class='w-10 h-10' viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg">

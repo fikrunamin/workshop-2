@@ -35,8 +35,8 @@ $routes->get('/', 'Home::index');
 $routes->get('/dashboard', 'Dashboard::index');
 
 $routes->group('auth', function ($routes) {
-	$routes->match(['get', 'post'], 'login', 'Auth\Auth::login');
-	$routes->match(['get', 'post'], 'register', 'Auth\Auth::register');
+	$routes->match(['get', 'post'], 'login', 'Auth::login');
+	$routes->match(['get', 'post'], 'register', 'Auth::register');
 });
 
 /**

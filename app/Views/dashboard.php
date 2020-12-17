@@ -243,15 +243,13 @@
     }
 
     function update_scroll() {
-
-        let element = document.getElementById("chatbot_section");
+        let element = document.getElementById("chat_section");
         element.scrollTop = element.scrollHeight;
     }
 
     function send(message) {
 
         $("#my_message").val("")
-        update_scroll()
         $.ajax({
             type: "POST",
             url: "<?= base_url(); ?>/dashboard/send_message",
@@ -266,6 +264,8 @@
                         </div>
                     </li>
                 `)
+
+                update_scroll()
             }
         })
     }
@@ -297,6 +297,7 @@
             success: function(data) {
                 $('#chatbot_content').empty()
                 $('#chatbot_content').html(data)
+                update_scroll()
             }
         })
     }
