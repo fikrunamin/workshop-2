@@ -57,7 +57,7 @@ class Dashboard extends BaseController
 
             if (count($data) <= 0) {
                 $data = [
-                    "id_user" => 1,
+                    "id_user" => session('id_user'),
                     "sender" => "bot",
                     "message" => "Welcome to Medical Chatbot, Admin. How can we help you today?"
                 ];
@@ -82,7 +82,7 @@ class Dashboard extends BaseController
         if ($this->request->isAJAX()) {
             $data = $this->chatModel->getChat();
             $message = service('request')->getPost('message');
-            $id_user = 1;
+            $id_user = session('id_user');
 
             $data = [
                 "id_user" => $id_user,

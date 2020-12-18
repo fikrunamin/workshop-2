@@ -29,6 +29,11 @@ class AuthorizedUsers extends Migration
 				'type'           => 'VARCHAR',
 				'constraint'     => 255,
 			],
+			'role' => [
+				'type'           => 'INT',
+				'constraint'     => 1,
+				'null'       	 => false,
+			],
 			'created_at' => [
 				'type'           => 'DATETIME',
 			],

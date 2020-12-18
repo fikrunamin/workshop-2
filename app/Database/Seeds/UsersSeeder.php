@@ -23,6 +23,7 @@ class UsersSeeder extends \CodeIgniter\Database\Seeder
             'id_user' => '1',
             'email' => 'admin@email.com',
             'password' => password_hash('123', PASSWORD_DEFAULT),
+            'role' => '1',
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
         ];

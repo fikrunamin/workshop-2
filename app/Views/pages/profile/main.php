@@ -9,7 +9,7 @@
         </li>
         <hr class="mt-3">
         <li class="mt-3 p-5 rounded-lg bg-blue-500 text-blue-100 w-full cursor-pointer">
-            <a href="#">
+            <a href="<?= route_to('logout'); ?>">
                 <h2>Logout</h2>
             </a>
         </li>

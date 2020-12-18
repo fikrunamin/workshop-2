@@ -274,20 +274,26 @@
         var code = (e.keyCode ? e.keyCode : e.which);
         if (code == 13) {
             send($(e).val())
+            update_scroll()
         }
     }
 
     function send_message(e) {
-        let message = $("#my_message").val();
-        console.log(message)
-        $("#chatbot_messages").append(`
+        let message = $("#my_message").val()
+        if (message.trim() != "") {
+            let new_element = $(`
             <li class="w-full max-w-full flex justify-end mb-5">
                 <div class="max-w-sm bg-blue-200 py-3 px-5 rounded-3xl">
                     <p>${message}</p>
                 </div>
             </li>
         `)
-        send(message)
+            // .hide()
+            $("#chatbot_messages").append(new_element)
+            // new_element.slideDown()
+            update_scroll()
+            send(message)
+        }
     }
 
     function renderChatbotSection() {
