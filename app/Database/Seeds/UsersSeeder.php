@@ -11,7 +11,7 @@ class UsersSeeder extends \CodeIgniter\Database\Seeder
         $data = [
             'fullname' => 'Admin',
             'occupation' => 'Student',
-            'gender' => 'Student',
+            'gender' => 'female',
             'birthdate' => '2000-01-01',
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),

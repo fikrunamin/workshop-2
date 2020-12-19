@@ -523,7 +523,7 @@
                             <div class="flex justify-center sm:justify-start items-center">
                                 <a href="<?= route_to('register'); ?>" class="px-5 py-2 text-blue-500 text-center font-bold w-40 rounded-full bg-white border-2 border-white shadow-md mr-5">MEMBER</a>
                                 <span class="text-white">or</span>
-                                <a href="javascript:;" class="px-5 py-2 text-center text-white font-bold w-40 rounded-full bg-blue-500 border-2 border-white shadow-md ml-5">GUEST</a>
+                                <a href="<?= route_to('guest'); ?>" class="px-5 py-2 text-center text-white font-bold w-40 rounded-full bg-blue-500 border-2 border-white shadow-md ml-5">GUEST</a>
                             </div>
                         </div>
                         <div class="flex justify-center grid grid-cols-1 z-20 hidden sm:block">

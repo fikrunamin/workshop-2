@@ -1,5 +1,5 @@
 <div id="chat_section" class="grid grid-cols-1 flex flex-wrap content-between h-screen max-h-screen overflow-y-auto">
-    <div class="bg-blue-500 py-10 shadow-md px-5 flex w-full sticky top-0">
+    <div class="bg-blue-500 py-8 shadow-md px-5 flex w-full sticky top-0">
         <div class="text-blue-500 bg-white rounded-full h-14 w-14 flex items-center justify-center duration-200 inline-block" wire:click="switch_page('clinic')">
             <svg id="Layer_1" enable-background="new 0 0 128 128" class='w-10 h-10' viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg">
                 <path d="m86.524 82.055v-1.459c0-8.13-6.614-14.745-14.744-14.745h-12.434c-.46-3.959-3.606-7.105-7.565-7.565v-7.274c2.018-.458 3.532-2.258 3.532-4.412 0-2.499-2.033-4.531-4.532-4.531s-4.531 2.033-4.531 4.531c0 2.154 1.514 3.955 3.531 4.412v7.274c-3.959.46-7.105 3.607-7.565 7.565h-12.433c-8.131 0-14.745 6.614-14.745 14.745v1.459c-4.288.498-7.628 4.147-7.628 8.566s3.34 8.067 7.628 8.565v2.027c0 8.13 6.614 14.745 14.745 14.745h41.997c8.13 0 14.744-6.614 14.744-14.745v-2.027c4.288-.498 7.628-4.146 7.628-8.565s-3.34-8.068-7.628-8.566z" fill="#e6e7e8" />
@@ -43,7 +43,7 @@
                 <?php foreach ($data as $date => $messages) : ?>
                     <li class="w-full max-w-full flex justify-center mb-5">
                         <div class="max-w-xs bg-gray-100 py-2 px-5 rounded-3xl">
-                            <p class="text-sm font-thin"><?= \Carbon\Carbon::now()->format('d F Y') == $date ? 'Today' : $date; ?></p>
+                            <p class="text-sm font-semibold text-black text-opacity-50"><?= \Carbon\Carbon::now()->format('d F Y') == $date ? 'Today' : $date; ?></p>
                         </div>
                     </li>
 
@@ -52,12 +52,14 @@
                             <li class="w-full max-w-full flex justify-end mb-5">
                                 <div class="max-w-sm bg-blue-200 py-3 px-5 rounded-3xl">
                                     <p><?= $message['message'] ?></p>
+                                    <p class="w-full text-right text-xs font-semibold mt-1 text-black text-opacity-50"><?= \Carbon\Carbon::parse($message['created_at'])->format('H:i'); ?></p>
                                 </div>
                             </li>
                         <?php else : ?>
                             <li class="w-full max-w-full flex justify-start mb-5">
                                 <div class="max-w-sm bg-gray-100 py-3 px-5 rounded-3xl">
                                     <p><?= $message['message'] ?></p>
+                                    <p class="w-full text-right text-xs font-semibold mt-1 text-black text-opacity-50"><?= \Carbon\Carbon::parse($message['created_at'])->format('H:i'); ?></p>
                                 </div>
                             </li>
                         <?php endif; ?>

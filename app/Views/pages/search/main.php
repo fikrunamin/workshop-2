@@ -1,7 +1,7 @@
 <!-- {{-- Search or Home Page --}} -->
-<div id="main_search" class="flex flex-col justify-center sticky top-0 bg-white mb-5 px-5 pb-5 pt-10 shadow-md">
+<div id="main_search" class="flex flex-col justify-center sticky top-0 bg-white px-5 pb-5 pt-10">
     <?= view('components/main_title', ['heading' => 'SEARCH', 'icon' => 'search']); ?>
-    <label for="disease" class="mb-1 text-xs sm:text-sm tracking-wide text-gray-600">Search for Disease</label>
+    <!-- <label for="disease" class="mb-1 text-xs sm:text-sm tracking-wide text-gray-600">Search for Disease</label> -->
     <div class="relative mb-5">
         <div class="inline-flex items-center justify-center absolute right-0 top-0 h-full w-10 text-gray-400">
             <span class="material-icons text-blue-400">

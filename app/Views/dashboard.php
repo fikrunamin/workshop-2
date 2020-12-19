@@ -45,7 +45,7 @@
             data.forEach(item => {
                 let dist = item.distance > 1000 ? (item.distance / 1000).toFixed(1) + " km" : item.distance + " m"
                 list_clinic.append(`
-                    <li class="w-full mt-3 p-5 rounded-lg cursor-pointer bg-blue-100 text-blue-500 clinic-item" onclick="show_location_detail(this,'${item.id}')">
+                    <li class="w-full mt-3 p-5 rounded-3xl cursor-pointer bg-blue-100 text-blue-500 clinic-item" onclick="show_location_detail(this,'${item.id}')">
                         <h2>${item.title}</h2>
                         <p>${dist}</p>
                         <p>${item.address.street}, ${item.address.city}</p>
@@ -204,7 +204,7 @@
         function create_list_disease(data) {
             for (index in data) {
                 disease_list.append(`
-                        <li class="mt-3 p-5 w-full rounded-lg cursor-pointer bg-blue-100 text-blue-500 disease-item" onclick="show_disease_detail(this,${index})">
+                        <li class="mt-3 p-5 w-full rounded-3xl cursor-pointer bg-blue-100 text-blue-500 disease-item" onclick="show_disease_detail(this,${index})">
                             <h3>${data[index][0].name}</h3>
                         </li>
                     `)
@@ -214,6 +214,9 @@
 
         if (keyword != "") {
             $.ajax({
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                },
                 type: "POST",
                 url: "<?= base_url(); ?>/dashboard/disease",
                 data: {
@@ -223,7 +226,7 @@
                     data = JSON.parse(data)
                     window.disease_data = data
                     create_list_disease(data)
-                    disease_list.parent().prepend(`<p id="total_diseases"><span class="font-bold">${Object.keys(data).length} Results</span> of "${keyword}"</p>`)
+                    $('#main_search').append(`<p id="total_diseases"><span class="font-bold">${Object.keys(data).length} Results</span> of "${keyword}"</p>`)
                 }
             })
         }
@@ -233,6 +236,9 @@
 
     function start_consultation() {
         $.ajax({
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest'
+            },
             type: "GET",
             url: "<?= base_url(); ?>/dashboard/start_consultation",
             success: function(data) {
@@ -247,10 +253,18 @@
         element.scrollTop = element.scrollHeight;
     }
 
+    function getTimeNow() {
+        let time = new Date()
+        return time.getHours() + ":" + time.getMinutes()
+    }
+
     function send(message) {
 
         $("#my_message").val("")
         $.ajax({
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest'
+            },
             type: "POST",
             url: "<?= base_url(); ?>/dashboard/send_message",
             data: {
@@ -261,6 +275,7 @@
                     <li class="w-full max-w-full flex justify-start mb-5">
                         <div class="max-w-sm bg-gray-100 py-3 px-5 rounded-3xl">
                             <p>${data}</p>
+                            <p class="w-full text-right text-xs font-semibold mt-1 text-black text-opacity-50">${getTimeNow()}</p>
                         </div>
                     </li>
                 `)
@@ -285,6 +300,7 @@
             <li class="w-full max-w-full flex justify-end mb-5">
                 <div class="max-w-sm bg-blue-200 py-3 px-5 rounded-3xl">
                     <p>${message}</p>
+                    <p class="w-full text-right text-xs font-semibold mt-1 text-black text-opacity-50">${getTimeNow()}</p>
                 </div>
             </li>
         `)
@@ -298,6 +314,9 @@
 
     function renderChatbotSection() {
         $.ajax({
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest'
+            },
             type: "GET",
             url: "<?= base_url(); ?>/dashboard/chatbot",
             success: function(data) {
@@ -317,6 +336,9 @@
             $(e).addClass('bg-white text-blue-500')
 
             $.ajax({
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                },
                 type: "POST",
                 url: "<?= base_url(); ?>/dashboard/main",
                 data: {
@@ -338,8 +360,61 @@
         }
     }
 
+
+    function update_profile(e) {
+        $(e).prev(`p`).remove()
+        $(e).html('Saving...')
+        $(e).attr('disabled', '')
+        $(e).addClass('bg-opacity-25 shadow-inner')
+        let el = $(e).attr('name')
+
+        function success_information(e) {
+            $(e).prev(`p`).remove()
+            $(e).before(`<p class="text-white mr-3">Saved.</p>`)
+            $(e).html('Save')
+            $(e).removeAttr('disabled')
+            $(e).removeClass('bg-opacity-25 shadow-inner')
+        }
+        if (el == "profile_information") {
+            $.ajax({
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                },
+                type: 'POST',
+                url: "<?= route_to('update_profile'); ?>",
+                data: {
+                    key: el,
+                    prefix: $('#prefix').val(),
+                    fullname: $('#fullname').val(),
+                    birthdate: $('#birthdate').val(),
+                    occupation: $('#occupation').val()
+                },
+                success: (data) => {
+                    success_information(e)
+                }
+            })
+        } else if (el == "update_email_and_password") {
+            $.ajax({
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                },
+                type: 'POST',
+                url: "<?= route_to('update_profile'); ?>",
+                data: {
+                    key: el,
+                    password: $('#password').val(),
+                    email: $('#email').val(),
+                },
+                success: (data) => {
+                    success_information(e)
+                }
+            })
+        }
+
+    }
+
     $(() => {
-        switch_page($("#search"), 'search')
+        switch_page($("#<?= session('page'); ?>"), '<?= session('page'); ?>')
         renderChatbotSection()
     })
 </script>

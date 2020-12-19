@@ -1,6 +1,6 @@
 <!-- {{-- Clinic Page --}} -->
 
-<div id="main_clinic" class="flex flex-col justify-center sticky top-0 bg-white mb-5 px-5 pb-5 pt-10  shadow-md">
+<div id="main_clinic" class="flex flex-col justify-center sticky top-0 bg-white mb-5 px-5 pb-5 pt-10">
     <?= view('components/main_title', ['heading' => 'NEAREST CLINIC', 'icon' => 'local_hospital']); ?>
 
     <p id="result_clinic">Looking for the closest clinics to you...</p>

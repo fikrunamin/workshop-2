@@ -16,6 +16,6 @@ class Chat extends Model
 
     public function getChat()
     {
-        return $this->where('id_user', 1)->findAll();
+        return $this->where('id_user', session('id_user'))->findAll();
     }
 }

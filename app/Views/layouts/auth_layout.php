@@ -18,8 +18,8 @@
 
 <body class="font-sans antialiased">
 
-    <div class="h-screen max-h-screen bg-blue-500 flex justify-center items-center">
-
+    <div class="h-screen max-h-screen bg-blue-500 flex justify-center items-center relative">
+        <?= view('auth/components/home_button', ['class' => 'top-16 left-1/3']); ?>
         <!-- Page Content -->
         <main>
             <?= $this->renderSection('content'); ?>

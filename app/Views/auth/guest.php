@@ -2,12 +2,12 @@
 
 <?= $this->section('content'); ?>
 <div>
-    <form action="<?= route_to('login') ?>" method="post">
+    <form action="<?= route_to('guest') ?>" method="post">
         <input type="hidden" name="_method" value="POST" />
         <div class="grid grid-cols-1 gap-y-5 relative" style="width: 36rem;">
 
             <div class="grid grid-cols-4 px-16 py-10 bg-blue-500 rounded-3xl gap-x-5 gap-y-2">
-                <div class="col-span-full grid grid-cols-1 flex justify-center text-white gap-y-2 pb-8">
+                <div class="col-span-full grid grid-cols-1 flex justify-center text-white gap-y-3 pb-8">
                     <div class="flex justify-center mb-3">
                         <div class="text-blue-500 shadow-lg bg-white rounded-full h-32 w-32 flex items-center justify-center">
                             <svg version="1.1" width="5rem" height="5rem" fill="#3f83f8" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 512.002 512.002" style="enable-background:new 0 0 512.002 512.002;" xml:space="preserve">
@@ -122,33 +122,19 @@
                         </div>
                     </div>
                     <div>
-                        <h2 class="text-2xl font-bold text-center w-full">LOGIN</h2>
+                        <h2 class="text-2xl font-bold text-center w-full">ARE YOU SURE TO PRECEED AS AN ANONYMOUS?</h2>
                     </div>
                     <div>
-                        <p class="text-md font-thin text-center w-full">We're so happy. You're back.</p>
+                        <p class="text-md font-thin text-center w-full">You'll be logged in as an <span class="font-semibold">Anonymous</span>. Your <span class="font-semibold">check-up records will be lost</span> once you logged out.</p>
                     </div>
                 </div>
-                <?php if (session()->getFlashdata('msg')) : ?>
-                    <div class="col-span-full mb-3">
-                        <div class="w-full">
-                            <div class="inline-flex items-center bg-red-500 leading-none text-white rounded-full p-2 shadow-md text-teal text-sm w-full font-semibold">
-                                <span class="inline-flex text-white bg-red-500 rounded-full h-6 px-3 justify-center items-center material-icons">error_outline</span>
-                                <span class="inline-flex px-2"><?= session()->getFlashdata('msg') ?></span>
-                            </div>
-                        </div>
-                    </div>
-                <?php endif; ?>
-                <div class="col-span-full">
-                    <?= view('auth/components/input', ['field' => 'Email', 'type' => 'email', 'icon' => '']); ?>
+                <div class="col-span-2">
+                    <a href="<?= route_to('register'); ?>">
+                        <button type="button" class="text-center w-full bg-white text-blue-500 shadow-md font-bold py-2 rounded-full">NO, BE A MEMBER</button>
+                    </a>
                 </div>
-                <div class="col-span-full">
-                    <?= view('auth/components/input', ['field' => 'Password', 'type' => 'password', 'icon' => '']); ?>
-                </div>
-                <div class="col-span-full">
-                    <button type="submit" class="text-center w-full bg-white text-blue-500 shadow-md font-bold py-2 rounded-full mt-5">LOGIN</button>
-                </div>
-                <div class="col-span-full flex justify-center">
-                    <a href="<?= route_to('register'); ?>" class="text-white text-sm mt-5">Don't have an account? <span class="font-bold">Create account</span></a>
+                <div class="col-span-2">
+                    <button type="submit" class="text-center w-full ring-4 ring-red-500 bg-white text-red-500 shadow-md font-bold py-2 rounded-full">YES, PROCEED</button>
                 </div>
             </div>
         </div>

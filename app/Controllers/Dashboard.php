@@ -24,6 +24,7 @@ class Dashboard extends BaseController
     {
         if ($this->request->isAJAX()) {
             $page = service('request')->getPost('page');
+            session()->set('page', $page);
             $view = [
                 "main" => view("pages/{$page}/main"),
                 "secondary" => view("pages/{$page}/secondary"),

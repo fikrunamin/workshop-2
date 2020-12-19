@@ -1,6 +1,6 @@
-<div id="main_profile" class="flex flex-col justify-center sticky top-0 bg-white mb-5 px-5 pb-5 pt-10 shadow-md">
+<div id="main_profile" class="flex flex-col justify-center sticky top-0 bg-white mb-5 px-5 pb-5 pt-10">
     <?= view('components/main_title', ['heading' => 'PROFILE', 'icon' => 'perm_identity']); ?>
-    <h1 class="text-lg font-bold">Profile</h1>
+    <h1 class="text-xl font-semibold">Profile</h1>
 </div>
 <div>
     <ul class="flex flex-col justify-center px-5 divide-solid">
