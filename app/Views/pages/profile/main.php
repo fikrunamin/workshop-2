@@ -4,7 +4,7 @@
 </div>
 <div>
     <ul class="flex flex-col justify-center px-5 divide-solid">
-        <li class="mt-3 p-5 rounded-lg bg-blue-100 text-blue-500 w-full cursor-pointer" wire:click="$emit('show_profile')">
+        <li class="mt-3 p-5 rounded-lg bg-blue-100 text-blue-500 w-full cursor-pointer">
             <h2>Edit Profile</h2>
         </li>
         <hr class="mt-3">

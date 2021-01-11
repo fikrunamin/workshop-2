@@ -1,5 +1,5 @@
-<div id="sidebar_navigation" class="flex flex-row h-screen max-h-screen">
-    <nav class="bg-blue-600 w-full justify-between flex flex-col px-5 h-screen max-h-screen" id="sidebar_navigation">
+<div id="sidebar_navigation" class="col-span-2 flex flex-row">
+    <nav class="bg-white w-full justify-between flex flex-col px-5" id="sidebar_navigation">
         <div class="mt-10 mb-10">
             <div class="flex items-center justify-center w-full">
                 <a href="javascript:;" onclick="switch_page(this, 'search')" class="text-blue-500 shadow-lg bg-white rounded-full h-12 w-12 sm:h-14 sm:w-14 flex items-center justify-center duration-200" id="logo">
@@ -15,37 +15,101 @@
                 </a>
             </div>
             <div class="mt-20">
-                <ul>
-                    <li class="mb-6 flex justify-center">
-                        <a id="search" href="javascript:;" class="
-                      text-white hover:text-blue-500 hover:shadow-lg hover:bg-white rounded-full h-12 w-12 sm:h-14 sm:w-14  flex items-center justify-center duration-200 menu
-                      " onclick="switch_page(this, 'search')">
-                            <span class="material-icons">
+                <ul class="space-y-5">
+                    <li class="flex justify-center">
+                        <a id="search" href="javascript:;" class="text-sm font-semibold text-blue-500 hover:shadow hover:bg-blue-100 rounded-lg h-12 w-full flex items-center justify-start duration-200 menu" onclick="switch_page(this, 'home')">
+                            <span class="material-icons px-5">
+                                home
+                            </span>
+                            Home
+                        </a>
+                    </li>
+
+                    <hr>
+
+                    <li class="flex justify-center">
+                        <a id="search" href="javascript:;" class="text-sm font-semibold text-blue-500 hover:shadow hover:bg-blue-100 rounded-lg h-12 w-full flex items-center justify-start duration-200 menu" onclick="switch_page(this, 'search')">
+                            <span class="material-icons px-5">
                                 search
                             </span>
+                            Search
                         </a>
                     </li>
 
-                    <hr class="mb-6 border-2 rounded-xl border-white">
-
-                    <li class="mb-6 flex justify-center">
-                        <a id="clinic" href="javascript:;" class="
-                    text-white hover:text-blue-500 hover:shadow-lg hover:bg-white rounded-full h-12 w-12 sm:h-14 sm:w-14  flex items-center justify-center duration-200 menu" onclick="switch_page(this, 'clinic')">
-                            <span class="material-icons">
+                    <li class="flex justify-center">
+                        <a id="clinic" href="javascript:;" class="text-sm font-semibold text-blue-500 hover:shadow hover:bg-blue-100 rounded-lg h-12 w-full flex items-center justify-start duration-200 menu" onclick="switch_page(this, 'clinic')">
+                            <span class="material-icons px-5">
                                 local_hospital
                             </span>
+                            Clinics
                         </a>
                     </li>
+
+                    <hr>
+
+                    <li class="flex justify-center">
+                        <a id="disease" href="javascript:;" class="text-sm font-semibold text-blue-500 hover:shadow hover:bg-blue-100 rounded-lg h-12 w-full flex items-center justify-start duration-200 menu" onclick="switch_page(this, 'disease')">
+                            <span class="material-icons px-5">
+                                topic
+                            </span>
+                            Diseases
+                        </a>
+                    </li>
+
+
+                    <li class="flex justify-center">
+                        <a id="symptom" href="javascript:;" class="text-sm font-semibold text-blue-500 hover:shadow hover:bg-blue-100 rounded-lg h-12 w-full flex items-center justify-start duration-200 menu" onclick="switch_page(this, 'symptom')">
+                            <span class="material-icons px-5">
+                                list
+                            </span>
+                            Symptoms
+                        </a>
+                    </li>
+
+                    <li class="flex justify-center">
+                        <a id="intent" href="javascript:;" class="text-sm font-semibold text-blue-500 hover:shadow hover:bg-blue-100 rounded-lg h-12 w-full flex items-center justify-start duration-200 menu" onclick="switch_page(this, 'tag')">
+                            <span class="material-icons px-5">
+                                text_snippet
+                            </span>
+                            Tags
+                        </a>
+                    </li>
+
+                    <hr>
+
+                    <li class="flex justify-center">
+                        <a id="disease" href="javascript:;" class="text-sm font-semibold text-blue-500 hover:shadow hover:bg-blue-100 rounded-lg h-12 w-full flex items-center justify-start duration-200 menu" onclick="train_data(this)">
+                            <span class="material-icons px-5">
+                                loop
+                            </span>
+                            Train Data
+                        </a>
+                    </li>
+
+                    <hr>
+
+                    <li class="flex justify-center">
+                        <a id="reports" href="javascript:;" class="text-sm font-semibold text-blue-500 hover:shadow hover:bg-blue-100 rounded-lg h-12 w-full flex items-center justify-start duration-200 menu" onclick="switch_page(this, 'report')">
+                            <span class=" material-icons px-5">
+                                assignment
+                            </span>
+                            Report
+                        </a>
+                    </li>
+
+                    <hr>
+
+                    <li class="flex justify-center">
+                        <a id="statistic" href="javascript:;" class="text-sm font-semibold text-blue-500 hover:shadow hover:bg-blue-100 rounded-lg h-12 w-full flex items-center justify-start duration-200 menu" onclick="switch_page(this, 'profile')">
+                            <span class=" material-icons px-5">
+                            perm_identity
+                            </span>
+                            Profile
+                        </a>
+                    </li>
+
                 </ul>
             </div>
-        </div>
-        <div class="mb-4 flex justify-center">
-            <a id="profile" href="javascript:;" class="
-          text-white hover:text-blue-500 hover:shadow-lg hover:bg-white rounded-full h-12 w-12 sm:h-14 sm:w-14  flex items-center justify-center duration-200 menu" onclick="switch_page(this, 'profile')">
-                <span class="material-icons">
-                    perm_identity
-                </span>
-            </a>
         </div>
     </nav>
 </div>

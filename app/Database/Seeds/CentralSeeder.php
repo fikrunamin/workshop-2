@@ -12,5 +12,6 @@ class CentralSeeder extends \CodeIgniter\Database\Seeder
         $this->call('DiseaseHasSymptomsSeeder');
         $this->call('DiseaseHasTreatmentsSeeder');
         $this->call('UsersSeeder');
+        $this->call('IntentsSeeder');
     }
 }

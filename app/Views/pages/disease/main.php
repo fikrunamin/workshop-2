@@ -1,4 +1,5 @@
-<div id="main_search" class="col-span-full">
+
+<div id="main_disease" class="col-span-full">
     <div class="grid grid-cols-10 gap-5">
         <div class="col-span-3 shadow rounded-lg bg-white text-sm overflow-hidden">
             <div class="flex justify-between items-center p-5">
@@ -7,13 +8,23 @@
             <hr>
             <div id="list" class="font-semibold text-sm text-blue-500">
 
+                <div class="h-14 w-full hover:bg-blue-100 flex items-center justify-between px-5 cursor-pointer list-item" onclick="add_disease(this)">
+                    <h3>Add a new disease</h3>
+                    <div class="w-5 h-5 rounded-full bg-blue-500 flex justify-center items-center">
+                        <span class="material-icons text-white">
+                            add
+                        </span>
+                    </div>
+                </div>
+                <hr>
+
                 <div class="h-14 w-full hover:bg-blue-100 flex items-center justify-between px-5 cursor-pointer">
                     <input id="search_item" oninput="search_item(this)" type="text" name="search_item" class="text-sm text-base placeholder-gray-500 pl-4 pr-10 rounded-lg ring-2 ring-blue-100 focus:ring-blue-500 duration-200 w-full py-2" placeholder="Caries Media" />
                 </div>
                 <hr>
 
                 <?php foreach ($diseases as $disease) : ?>
-                    <div class="h-14 w-full hover:bg-blue-100 flex items-center justify-between px-5 cursor-pointer list-item" onclick="show_disease_detail(this, <?= $disease['id']; ?>)">
+                    <div class="h-14 w-full hover:bg-blue-100 flex items-center justify-between px-5 cursor-pointer list-item" onclick="edit_disease(this, <?= $disease['id']; ?>)">
                         <h3><?= $disease['name']; ?></h3>
                         <div class="w-5 h-5 rounded-full bg-blue-500 flex justify-center items-center">
                             <span class="material-icons text-white">
@@ -54,24 +65,112 @@
                     <h3 class="font-semibold text-blue-500">Disease Name</h3>
                 </div>
                 <div class="col-span-3">
-                    <p class="leading-relaxed disease-name"></p>
+                    <input type="text" class="rounded-lg w-full h-10 px-5 bg-white ring-2 ring-blue-100 focus:ring-blue-500" name="disease_name">
                 </div>
                 <div class="col">
                     <h3 class="font-semibold text-blue-500">Disease Definition</h3>
                 </div>
                 <div class="col-span-3">
-                    <p class="leading-relaxed disease-definition"></p>
+                    <input type="text" class="rounded-lg w-full h-10 px-5 bg-white ring-2 ring-blue-100 focus:ring-blue-500" name="disease_definition">
                 </div>
                 <div class="col">
                     <h3 class="font-semibold text-blue-500">Symptoms</h3>
                 </div>
                 <div class="col-span-3 space-y-1 disease-symptoms">
+                    <ul id="disease_symptoms" class="space-y-3">
+                        <li class="relative">
+                            <button onclick="toggle_symptom_modal(this)" class="flex justify-center items-center bg-blue-100 rounded-lg w-full h-10 p-5 font-semibold text-sm text-blue-500">
+                                <span class="material-icons">
+                                    add
+                                </span>
+                                Add symptom
+                            </button>
+                            <div id="symptoms_modal" class="absolute top-0 w-full hidden z-50">
+                                <div class="relative w-full max-h-96 bg-white rounded-lg shadow-md p-5 overflow-y-auto w-full">
+                                    <div class="relative w-full bg-white flex justify-start items-center mb-3">
+                                        <input type="text" class="rounded-lg bg-white ring-2 ring-blue-100 focus:ring-blue-500 w-full h-10 px-5 bg-blue-100" name="select_symptoms" oninput="search_symptom(this)">
+                                        <span class="absolute right-5 material-icons cursor-pointer text-blue-500" onclick="toggle_symptom_modal(this)">
+                                            close
+                                        </span>
+                                    </div>
+
+                                    <?php foreach ($symptoms as $symptom) : ?>
+                                        <div class="w-full p-3 hover:bg-blue-500 hover:text-blue-100 duration-200 rounded-lg cursor-pointer symptom-item" onclick="add_field(this, 'symptom')">
+                                            <span class="symptom-id mr-3"><?= $symptom['id']; ?></span>
+                                            <span class="symptom-name"><?= $symptom['name']; ?></span>
+                                        </div>
+                                    <?php endforeach; ?>
+
+                                    <div class="w-full hidden no-result">
+                                        <p>
+                                            No result.
+                                            <a href="javascript:;" class="text-blue-500" onclick="create_symptom(this)">Create a new symptom with name "<span id="symptom_keyword"></span>"</a>
+                                        </p>
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="h-5 w-5 animate-spin hidden loading-symptom">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                                        </svg>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
                 </div>
                 <div class="col">
                     <h3 class="font-semibold text-blue-500">Treatments</h3>
                 </div>
                 <div class="col-span-3">
                     <div class="col-span-3 space-y-1 disease-treatments">
+                        <ul id="disease_treatments" class="space-y-3 mb-5">
+                            <li class="relative">
+                                <button onclick="toggle_treatment_modal(this)" class="flex justify-center items-center bg-blue-100 rounded-lg w-full h-10 p-5 text-blue-500 font-semibold">
+                                    <span class="material-icons">
+                                        add
+                                    </span>
+                                    Add treatment
+                                </button>
+                                <div id="treatments_modal" class="absolute top-0 w-full hidden z-50">
+                                    <div class="relative w-full max-h-96 bg-white rounded-lg shadow-md p-5 overflow-y-auto w-full">
+                                        <div class="w-full bg-white flex justify-start items-center mb-3">
+                                            <input type="text" class="rounded-lg bg-white ring-2 ring-blue-100 focus:ring-blue-500 w-full h-10 px-5 bg-blue-100" name="select_treatments" oninput="search_treatment(this)">
+                                            <span class="absolute right-5 material-icons cursor-pointer text-blue-500" onclick="toggle_treatment_modal(this)">
+                                                close
+                                            </span>
+                                        </div>
+
+                                        <?php foreach ($treatments as $treatment) : ?>
+                                            <div class="w-full p-3 hover:bg-blue-500 hover:text-blue-100 duration-200 rounded-lg cursor-pointer treatment-item" onclick="add_field(this, 'treatment')">
+                                                <span class="treatment-id mr-3"><?= $treatment['id']; ?></span>
+                                                <span class="treatment-name"><?= $treatment['name']; ?></span>
+                                            </div>
+                                        <?php endforeach; ?>
+
+                                        <div class="w-full hidden no-result">
+                                            <p>
+                                                No result.
+                                                <a href="javascript:;" class="text-blue-500" onclick="create_treatment(this)">Create a new treatment with name "<span id="treatment_keyword"></span>"</a>
+                                            </p>
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="h-5 w-5 animate-spin hidden loading-treatment">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                                            </svg>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                        <div class="flex justify-end space-x-3">
+                            <button onclick="delete_disease()" class="flex justify-between items-center bg-red-500 text-white rounded-lg h-10 p-5 hidden" id="delete_disease">
+                                <span class="material-icons mr-3">
+                                    delete
+                                </span>
+                                Delete Data
+                            </button>
+                            <button onclick="save_disease()" class="flex justify-between items-center bg-blue-500 text-white rounded-lg h-10 p-5">
+                                <span class="material-icons mr-3">
+                                    save
+                                </span>
+                                Save Data
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -91,10 +190,11 @@
                     </svg>
                 </div>
                 <div class="text-center">
-                    <h3 class="text-sm text-blue-500 text-opacity-70 font-semibold">Please select one of diseases on your left.</h3>
+                    <h3 class="text-sm text-blue-500 text-opacity-70 font-semibold">Please select one of diseases on your left or add disease.</h3>
                 </div>
             </div>
         </div>
     </div>
 </div>
+<!-- {{--End of Search or Home Page --}} -->
 <!-- {{--End of Search or Home Page --}} -->

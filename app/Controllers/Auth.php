@@ -5,15 +5,20 @@ namespace App\Controllers;
 use App\Models\AuthorizedUser;
 use App\Models\User;
 
+use CodeIgniter\I18n\Time;
+use Ramsey\Uuid\Uuid;
+
 class Auth extends BaseController
 {
     protected $userModel;
     protected $authorizedUserModel;
+    protected $db;
 
     public function __construct()
     {
         $this->userModel = new User();
         $this->authorizedUserModel = new AuthorizedUser();
+        $this->db = \Config\Database::connect();
     }
 
     public function login()
@@ -29,7 +34,7 @@ class Auth extends BaseController
                 $pass = $data['password'];
                 $verify_pass = password_verify($password, $pass);
                 if ($verify_pass) {
-                    $this->setUserMethod($data);
+                    $ses_data = $this->setUserMethod($data);
                     return redirect()->to('/dashboard');
                 } else {
                     $session->setFlashdata('msg', 'Wrong mail or password!');
@@ -98,7 +103,7 @@ class Auth extends BaseController
                 'fullname' => $name,
                 'occupation' => 'unemployed',
                 'gender' => $gender[rand(0, 1)],
-                'birthdate' => '01/01/2000',
+                'birthdate' => '2000-01-01',
                 'created_at' => \Carbon\Carbon::now(),
                 'updated_at' => \Carbon\Carbon::now(),
             ];
@@ -109,7 +114,7 @@ class Auth extends BaseController
 
             $data = [
                 'id_user' => $id_user,
-                'email' => $name . '@email.com',
+                'email' => strtolower($name) . '@email.com',
                 'password' => password_hash('12345678', PASSWORD_DEFAULT),
                 'role' => 2,
                 'created_at' => \Carbon\Carbon::now(),
@@ -173,9 +178,10 @@ class Auth extends BaseController
             'role' => $data['role'],
             'logged_in' => TRUE,
             'data_user' => $data_user,
-            'page' => 'search'
+            'page' => 'home'
         ];
         $session->set($ses_data);
+        return $ses_data;
     }
 
     //--------------------------------------------------------------------

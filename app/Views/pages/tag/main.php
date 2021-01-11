@@ -1,27 +1,58 @@
-<div id="main_search" class="col-span-full">
+<div id="main_tag" class="col-span-full">
     <div class="grid grid-cols-10 gap-5">
         <div class="col-span-3 shadow rounded-lg bg-white text-sm overflow-hidden">
             <div class="flex justify-between items-center p-5">
-                <h3 class="font-semibold">Disease</h3>
+                <h3 class="font-semibold">Tag</h3>
             </div>
             <hr>
             <div id="list" class="font-semibold text-sm text-blue-500">
 
-                <div class="h-14 w-full hover:bg-blue-100 flex items-center justify-between px-5 cursor-pointer">
-                    <input id="search_item" oninput="search_item(this)" type="text" name="search_item" class="text-sm text-base placeholder-gray-500 pl-4 pr-10 rounded-lg ring-2 ring-blue-100 focus:ring-blue-500 duration-200 w-full py-2" placeholder="Caries Media" />
+                <div class="h-14 w-full hover:bg-blue-100 flex items-center justify-between px-5 cursor-pointer list-item" onclick="add_tag(this)">
+                    <h3>Add a new tag</h3>
+                    <div class="w-5 h-5 rounded-full bg-blue-500 flex justify-center items-center">
+                        <span class="material-icons text-white">
+                            add
+                        </span>
+                    </div>
                 </div>
                 <hr>
 
-                <?php foreach ($diseases as $disease) : ?>
-                    <div class="h-14 w-full hover:bg-blue-100 flex items-center justify-between px-5 cursor-pointer list-item" onclick="show_disease_detail(this, <?= $disease['id']; ?>)">
-                        <h3><?= $disease['name']; ?></h3>
-                        <div class="w-5 h-5 rounded-full bg-blue-500 flex justify-center items-center">
-                            <span class="material-icons text-white">
-                                navigate_next
-                            </span>
-                        </div>
+                <div class="h-14 w-full hover:bg-blue-100 flex items-center justify-between px-5 cursor-pointer">
+                    <input id="search_item" oninput="search_item(this)" type="text" name="search_item" class="text-sm text-base placeholder-gray-500 pl-4 pr-10 rounded-lg ring-2 ring-blue-100 focus:ring-blue-500 duration-200 w-full py-2" placeholder="Greeting" />
+                </div>
+                <hr>
+
+                <?php if (count($tags_no_patterns) > 0) : ?>
+                    <div class="px-5 min-h-max py-3 flex items-center bg-red-50 text-red-500">
+                        <h3 class="">Tags without patterns and responses</h3>
                     </div>
-                <?php endforeach; ?>
+                    <hr>
+                    <?php foreach ($tags_no_patterns as $tag) : ?>
+                        <div class="h-14 w-full hover:bg-red-100 flex items-center justify-between px-5 cursor-pointer text-red-500 list-item" onclick="edit_tag(this, <?= $tag['id']; ?>)">
+                            <h3 class=""><?= $tag['name']; ?></h3>
+                            <div class="w-5 h-5 rounded-full bg-red-500 flex justify-center items-center">
+                                <span class="material-icons text-white">
+                                    navigate_next
+                                </span>
+                            </div>
+                        </div>
+                    <?php endforeach; ?>
+                <?php endif; ?>
+                <?php if (count($tags) > 0) : ?>
+                    <div class="px-5 min-h-max py-3 flex items-center bg-blue-50">
+                        <h3>Tags with patterns and responses</h3>
+                    </div>
+                    <?php foreach ($tags as $tag) : ?>
+                        <div class="h-14 w-full hover:bg-blue-100 flex items-center justify-between px-5 cursor-pointer list-item" onclick="edit_tag(this, <?= $tag['id']; ?>)">
+                            <h3><?= $tag['name']; ?></h3>
+                            <div class="w-5 h-5 rounded-full bg-blue-500 flex justify-center items-center">
+                                <span class="material-icons text-white">
+                                    navigate_next
+                                </span>
+                            </div>
+                        </div>
+                    <?php endforeach; ?>
+                <?php endif; ?>
 
                 <div class="w-full p-10 no-item space-y-5 hidden">
                     <div class=" flex items-center justify-center">
@@ -49,33 +80,61 @@
                 <h3 class="font-semibold">Detail</h3>
             </div>
             <hr>
-            <div class="grid grid-cols-4 p-5 gap-5 text-sm hidden" id="disease-detail">
+            <div class="grid grid-cols-4 p-5 gap-5 text-sm hidden" id="tag-detail">
                 <div class="col">
-                    <h3 class="font-semibold text-blue-500">Disease Name</h3>
+                    <h3 class="font-semibold text-blue-500">tag Name</h3>
                 </div>
                 <div class="col-span-3">
-                    <p class="leading-relaxed disease-name"></p>
+                    <input type="text" class="rounded-lg w-full h-10 px-5 bg-white ring-2 ring-blue-100 focus:ring-blue-500" name="tag_name">
                 </div>
                 <div class="col">
-                    <h3 class="font-semibold text-blue-500">Disease Definition</h3>
+                    <h3 class="font-semibold text-blue-500">Patterns</h3>
                 </div>
-                <div class="col-span-3">
-                    <p class="leading-relaxed disease-definition"></p>
+                <div class="col-span-3 space-y-1 tag-patterns">
+                    <ul id="tag_patterns" class="space-y-3">
+                        <li class="relative">
+                            <button onclick="add_field_tag(this, 'pattern')" class="flex justify-center items-center bg-blue-100 rounded-lg w-full h-10 p-5 font-semibold text-sm text-blue-500" id="add_pattern">
+                                <span class="material-icons">
+                                    add
+                                </span>
+                                Add pattern
+                            </button>
+                        </li>
+                    </ul>
                 </div>
                 <div class="col">
-                    <h3 class="font-semibold text-blue-500">Symptoms</h3>
+                    <h3 class="font-semibold text-blue-500">Responses</h3>
                 </div>
-                <div class="col-span-3 space-y-1 disease-symptoms">
+                <div class="col-span-3 space-y-1 tag-responses">
+                    <ul id="tag_responses" class="space-y-3">
+                        <li class="relative">
+                            <button onclick="add_field_tag(this, 'response')" class="flex justify-center items-center bg-blue-100 rounded-lg w-full h-10 p-5 font-semibold text-sm text-blue-500" id="add_response">
+                                <span class="material-icons">
+                                    add
+                                </span>
+                                Add response
+                            </button>
+                        </li>
+                    </ul>
                 </div>
-                <div class="col">
-                    <h3 class="font-semibold text-blue-500">Treatments</h3>
-                </div>
-                <div class="col-span-3">
-                    <div class="col-span-3 space-y-1 disease-treatments">
+                <div class="col-span-full">
+                    <div class="flex justify-end space-x-3">
+                        <button onclick="delete_tag()" class="flex justify-center items-center bg-red-500 text-white rounded-full h-10 p-5 hidden" id="delete_disease">
+                            <span class="material-icons">
+                                delete
+                            </span>
+                            Delete Data
+                        </button>
+                        <button onclick="save_tag()" class="flex justify-between items-center bg-blue-500 text-white rounded-lg h-10 p-5">
+                            <span class="material-icons">
+                                save
+                            </span>
+                            Save Data
+                        </button>
                     </div>
                 </div>
             </div>
-            <div class="col-span-full p-20 space-y-5 no-selected">
+            <div class="p-20 space-y-5 no-selected">
                 <div class=" flex items-center justify-center">
                     <svg id="b21613c9-2bf0-4d37-bef0-3b193d34fc5d" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 647.63626 632.17383" class="w-44">
                         <path d="M687.3279,276.08691H512.81813a15.01828,15.01828,0,0,0-15,15v387.85l-2,.61005-42.81006,13.11a8.00676,8.00676,0,0,1-9.98974-5.31L315.678,271.39691a8.00313,8.00313,0,0,1,5.31006-9.99l65.97022-20.2,191.25-58.54,65.96972-20.2a7.98927,7.98927,0,0,1,9.99024,5.3l32.5498,106.32Z" transform="translate(-276.18187 -133.91309)" fill="#f2f2f2" />
@@ -91,7 +150,7 @@
                     </svg>
                 </div>
                 <div class="text-center">
-                    <h3 class="text-sm text-blue-500 text-opacity-70 font-semibold">Please select one of diseases on your left.</h3>
+                    <h3 class="text-sm text-blue-500 text-opacity-70 font-semibold">Please select one of tags on your left or add symtom.</h3>
                 </div>
             </div>
         </div>

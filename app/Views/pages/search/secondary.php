@@ -1,4 +1,4 @@
-<div id="secondary_search">
+<div id="secondary_search" class="hidden">
     <?= view('components/secondary_title.php', ['heading' => 'Disease Detail']); ?>
 
     <div class="px-5">

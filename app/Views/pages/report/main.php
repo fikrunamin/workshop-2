@@ -1,4 +1,5 @@
-<div id="main_search" class="col-span-full">
+<!-- {{--End of Search or Home Page --}} -->
+<div id="main_report" class="col-span-full">
     <div class="grid grid-cols-10 gap-5">
         <div class="col-span-3 shadow rounded-lg bg-white text-sm overflow-hidden">
             <div class="flex justify-between items-center p-5">
@@ -8,13 +9,14 @@
             <div id="list" class="font-semibold text-sm text-blue-500">
 
                 <div class="h-14 w-full hover:bg-blue-100 flex items-center justify-between px-5 cursor-pointer">
-                    <input id="search_item" oninput="search_item(this)" type="text" name="search_item" class="text-sm text-base placeholder-gray-500 pl-4 pr-10 rounded-lg ring-2 ring-blue-100 focus:ring-blue-500 duration-200 w-full py-2" placeholder="Caries Media" />
+                    <input id="search_item" oninput="search_item(this)" type="text" name="search_item" class="text-sm text-base placeholder-gray-500 pl-4 pr-10 rounded-lg ring-2 ring-blue-100 focus:ring-blue-500 duration-200 w-full py-2" placeholder="Sunday, 20 December 2020" />
                 </div>
                 <hr>
-
-                <?php foreach ($diseases as $disease) : ?>
-                    <div class="h-14 w-full hover:bg-blue-100 flex items-center justify-between px-5 cursor-pointer list-item" onclick="show_disease_detail(this, <?= $disease['id']; ?>)">
-                        <h3><?= $disease['name']; ?></h3>
+                <?php foreach ($report_data as $data) : ?>
+                    <div class="h-14 w-full hover:bg-blue-100 flex items-center justify-between px-5 cursor-pointer list-item" onclick="show_report(this, <?= $data['id']; ?>)">
+                        <h3>
+                            <?= \Carbon\Carbon::parse($data['created_at'])->format('l, d F Y'); ?>
+                        </h3>
                         <div class="w-5 h-5 rounded-full bg-blue-500 flex justify-center items-center">
                             <span class="material-icons text-white">
                                 navigate_next
@@ -49,30 +51,18 @@
                 <h3 class="font-semibold">Detail</h3>
             </div>
             <hr>
-            <div class="grid grid-cols-4 p-5 gap-5 text-sm hidden" id="disease-detail">
+            <div class="grid grid-cols-4 p-5 gap-5 text-sm hidden" id="report-detail">
                 <div class="col">
-                    <h3 class="font-semibold text-blue-500">Disease Name</h3>
+                    <h3 class="font-semibold text-yellow-500">Detected Symptoms</h3>
                 </div>
                 <div class="col-span-3">
-                    <p class="leading-relaxed disease-name"></p>
-                </div>
-                <div class="col">
-                    <h3 class="font-semibold text-blue-500">Disease Definition</h3>
-                </div>
-                <div class="col-span-3">
-                    <p class="leading-relaxed disease-definition"></p>
-                </div>
-                <div class="col">
-                    <h3 class="font-semibold text-blue-500">Symptoms</h3>
-                </div>
-                <div class="col-span-3 space-y-1 disease-symptoms">
-                </div>
-                <div class="col">
-                    <h3 class="font-semibold text-blue-500">Treatments</h3>
-                </div>
-                <div class="col-span-3">
-                    <div class="col-span-3 space-y-1 disease-treatments">
+                    <div class="col-span-3 space-y-1 detected-symptoms">
                     </div>
+                </div>
+                <div class="col">
+                    <h3 class="font-semibold text-red-500">Detected Diseases</h3>
+                </div>
+                <div class="col-span-3 detected-diseases">
                 </div>
             </div>
             <div class="col-span-full p-20 space-y-5 no-selected">
@@ -91,7 +81,7 @@
                     </svg>
                 </div>
                 <div class="text-center">
-                    <h3 class="text-sm text-blue-500 text-opacity-70 font-semibold">Please select one of diseases on your left.</h3>
+                    <h3 class="text-sm text-blue-500 text-opacity-70 font-semibold">Please select one of reports on your left.</h3>
                 </div>
             </div>
         </div>
