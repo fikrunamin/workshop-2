@@ -5,8 +5,8 @@
     <div class="mx-auto">
         <div class="relative bg-white flex flex-col h-screen max-h-screen ">
 
-            <div class="fixed bottom-10 right-10 cursor-pointer " onclick="$('#chat-section').toggleClass('hidden')">
-                <div class="text-blue-500 bg-white rounded-full h-14 w-14 flex items-center justify-center duration-200 inline-block">
+            <div class="fixed bottom-10 right-10 cursor-pointer" onclick="$('#chat-section').toggleClass('hidden')" style="z-index: 1000;">
+                <div class="text-blue-500 bg-white rounded-full h-14 w-14 flex items-center justify-center duration-200 inline-block border-4 border-blue-500 shadow-lg">
                     <svg id="Layer_1" enable-background="new 0 0 128 128" class='w-10 h-10' viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg">
                         <path d="m86.524 82.055v-1.459c0-8.13-6.614-14.745-14.744-14.745h-12.434c-.46-3.959-3.606-7.105-7.565-7.565v-7.274c2.018-.458 3.532-2.258 3.532-4.412 0-2.499-2.033-4.531-4.532-4.531s-4.531 2.033-4.531 4.531c0 2.154 1.514 3.955 3.531 4.412v7.274c-3.959.46-7.105 3.607-7.565 7.565h-12.433c-8.131 0-14.745 6.614-14.745 14.745v1.459c-4.288.498-7.628 4.147-7.628 8.566s3.34 8.067 7.628 8.565v2.027c0 8.13 6.614 14.745 14.745 14.745h41.997c8.13 0 14.744-6.614 14.744-14.745v-2.027c4.288-.498 7.628-4.146 7.628-8.565s-3.34-8.068-7.628-8.566z" fill="#e6e7e8" />
                         <path d="m118.301 16.042h-41.177c-3.467 0-6.288 2.821-6.288 6.288v24.648c0 3.468 2.821 6.29 6.288 6.29h1.96v9.77c0 .394.23.75.59.912.132.059.271.088.41.088.24 0 .477-.086.663-.252l11.861-10.518h25.692c3.468 0 6.289-2.821 6.289-6.29v-24.648c.001-3.467-2.82-6.288-6.288-6.288z" fill="#e6e7e8" />
@@ -32,7 +32,12 @@
                     </svg>
                 </div>
             </div>
+            <!-- Chat Section -->
+
             <div class="fixed bottom-10 right-28 bg-white shadow-md rounded-lg overflow-y-auto hidden" id="chat-section" style="max-height: 700px; z-index:1000;">
+                <?= $this->include('pages/chatbot_section'); ?>
+            </div>
+            <!-- <div class="fixed bottom-10 right-28 bg-white shadow-md rounded-lg overflow-y-auto hidden" id="chat-section" style="max-height: 700px; z-index:1000;">
                 <div class="bg-blue-500 py-8 shadow-md px-5 flex w-full sticky top-0">
                     <div class="text-blue-500 bg-white rounded-full h-14 w-14 flex items-center justify-center duration-200 inline-block" wire:click="switch_page('clinic')">
                         <svg id="Layer_1" enable-background="new 0 0 128 128" class='w-10 h-10' viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg">
@@ -71,7 +76,78 @@
                         </div>
                     </div>
                 </div>
-            </div>
+                <div class="grid grid-cols-1 flex-1">
+                    <div class="p-5 pt-10">
+                        <ul class="flex flex-col" id="chatbot_messages">
+                            <li class="w-full max-w-full flex justify-center mb-5">
+                                <div class="max-w-xs bg-gray-100 py-2 px-5 rounded-3xl">
+                                    <p class="text-sm font-semibold text-black text-opacity-50">Today</p>
+                                </div>
+                            </li>
+                            <li class="w-full max-w-full flex justify-start mb-5">
+                                <div class="max-w-sm bg-gray-100 py-3 px-5 rounded-3xl">
+                                    <p>Welcome to Medical Chatbot, Admin. How can we help you today?</p>
+                                </div>
+                            </li>
+                            <li class="hidden w-full max-w-full flex justify-end mb-5">
+                                <div class="max-w-sm bg-blue-200 py-3 px-5 rounded-3xl">
+                                    <p>Hi, Bot.</p>
+                                </div>
+                            </li>
+                            <li class="hidden w-full max-w-full flex justify-start mb-5">
+                                <div class="max-w-sm bg-gray-100 py-3 px-5 rounded-3xl">
+                                    <p>Hello, Sir. Is there anything I can help?</p>
+                                </div>
+                            </li>
+                            <li class="hidden w-full max-w-full flex justify-end mb-5">
+                                <div class="max-w-sm bg-blue-200 py-3 px-5 rounded-3xl">
+                                    <p>Umm, I'm not feeling well today. I am having cavity on my teeth, and my dentin is seen and my pulp felt infected.</p>
+                                </div>
+                            </li>
+                            <li class="hidden w-full max-w-full flex justify-start mb-5">
+                                <div class="max-w-sm bg-gray-100 py-3 px-5 rounded-3xl">
+                                    <p>Okay, Sir. based on my data, the people that have your symtoms are also having throbbing pain. Do you feel also it?</p>
+                                </div>
+                            </li>
+                            <li class="hidden w-full max-w-full flex justify-end mb-5">
+                                <div class="max-w-sm bg-blue-200 py-3 px-5 rounded-3xl">
+                                    <p>Yes you are right.</p>
+                                </div>
+                            </li>
+                            <li class="hidden w-full max-w-full flex justify-start mb-5">
+                                <div class="max-w-sm bg-gray-100 py-3 px-5 rounded-3xl">
+                                    <p>Okay, Sir. I 100% confidently says that you are having Caries Profunda.</p>
+                                </div>
+                            </li>
+                            <li class="hidden w-full max-w-full flex justify-start mb-5">
+                                <div class="max-w-sm bg-gray-100 py-3 px-5 rounded-3xl">
+                                    <p>Caries Profunda is Deep structural defect. Caries has penetrated up to the dentin layers of the tooth close to the pulp.</p>
+                                </div>
+                            </li>
+                            <li class="hidden w-full max-w-full flex justify-start mb-5">
+                                <div class="max-w-sm bg-gray-100 py-3 px-5 rounded-3xl">
+                                    <p>My suggestion: Use dental fillings to handle it.</p>
+                                </div>
+                            </li>
+                            <li class="hidden w-full max-w-full flex justify-start mb-5">
+                                <div class="max-w-sm bg-gray-100 py-3 px-5 rounded-3xl">
+                                    <p>If you feel more uncomfortable. Please go to the nearest clinic to get treatment there. Thank you.</p>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="p-5 sticky bottom-0 bg-white w-full">
+                        <div class="relative">
+                            <button class="inline-flex items-center justify-center absolute right-0 top-0 h-full w-10 text-gray-400" onclick="send('this')">
+                                <span class="material-icons text-blue-400">
+                                    send
+                                </span>
+                            </button>
+                            <textarea id="my_message" onkeypress="send_message_using_enter(this)" type="text" name="my_message" class="text-sm text-base placeholder-gray-500 pl-4 pr-10 rounded-3xl bg-blue-100 w-full py-2 focus:outline-none focus:border-blue-400 break-words h-10 max-h-20 resize-none overflow-y-auto" placeholder="Write a message"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div> -->
 
             <div class="grid grid-cols-4 sm:grid-cols-12 gap-0 flex-none">
                 <div class="col-span-full h-14 bg-gray-100 shadow" style="z-index: 100;">
@@ -85,11 +161,13 @@
                                 / <span class="current_page capitalize">Home</span>
                             </div>
                             <div class="flex justify-start items-center space-x-10">
-                                <div>
+                                <!-- Notification -->
+                                <!-- <div>
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="h-6 w-6 text-blue-100">
                                         <path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z" />
                                     </svg>
-                                </div>
+                                </div> -->
+
                                 <div class="relative flex justify-start items-center space-x-5">
                                     <img src='https://avataaars.io/?avatarStyle=Circle&topType=ShortHairShortWaved&accessoriesType=Prescription01&hairColor=Black&facialHairType=Blank&facialHairColor=Blonde&clotheType=Hoodie&clotheColor=PastelBlue&eyeType=Default&eyebrowType=Default&mouthType=Default&skinColor=Light' class="w-10 h-10" />
                                     <h3 class="font-semibold"><?= session()->get('data_user')['fullname']; ?></h3>
@@ -99,7 +177,7 @@
                                         </svg>
                                     </div>
                                     <div id="dropdown-profile" class="absolute top-16 left-0 rounded-lg shadow-md w-full bg-white hidden overflow-hidden" style="z-index: 100;">
-                                        <a href="" class="block h-10 px-3 flex items-center hover:bg-blue-500 hover:text-white duration-200">Edit Profile</a>
+                                        <a href="javascript:;" class="block h-10 px-3 flex items-center hover:bg-blue-500 hover:text-white duration-200" onclick="switch_page(this, 'profile')">Edit Profile</a>
                                         <hr>
                                         <a href="/auth/logout" class="block h-10 px-3 flex items-center hover:bg-blue-500 hover:text-white duration-200">Logout</a>
                                     </div>
@@ -480,33 +558,30 @@
     }
 
     function send(message) {
-        let new_message = $("#chatbot_messages").find('li:hidden')
-        console.log(new_message)
-        $(new_message[0]).show()
-        // $("#my_message").val("")
-        // $.ajax({
-        //     headers: {
-        //         'X-Requested-With': 'XMLHttpRequest'
-        //     },
-        //     type: "POST",
-        //     url: "/dashboard/send_message",
-        //     data: {
-        //         message: message
-        //     },
-        //     success: function(data) {
-        //         $("#chatbot_messages").append(`
-        //             <li class="w-full max-w-full flex justify-start mb-5">
-        //                 <div class="max-w-sm bg-gray-100 py-3 px-5 rounded-3xl">
-        //                     <p>${data}</p>
-        //                     <p class="w-full text-right text-xs font-semibold mt-1 text-black text-opacity-50">${getTimeNow()}</p>
-        //                 </div>
-        //             </li>
-        //         `)
+        $("#my_message").val("")
+        $.ajax({
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest'
+            },
+            type: "POST",
+            url: "/dashboard/send_message",
+            data: {
+                message: message
+            },
+            success: function(data) {
+                $("#chatbot_messages").append(`
+                    <li class="w-full max-w-full flex justify-start mb-5">
+                        <div class="max-w-sm bg-gray-100 py-3 px-5 rounded-3xl">
+                            <p>${data}</p>
+                            <p class="w-full text-right text-xs font-semibold mt-1 text-black text-opacity-50">${getTimeNow()}</p>
+                        </div>
+                    </li>
+                `)
 
-        //         update_scroll()
-        //     }
-        // })
-        // $.ajax({s
+                update_scroll()
+            }
+        })
+        // $.ajax({
         //     headers: {
         //         'X-Requested-With': 'XMLHttpRequest'
         //     },
@@ -588,6 +663,9 @@
                 },
                 success: function(data) {
                     data = JSON.parse(data)
+                    $('.current_page').empty()
+                    $('.current_page').text(page)
+
                     $('#main_content').empty()
                     $('#main_content').html(data.main)
 

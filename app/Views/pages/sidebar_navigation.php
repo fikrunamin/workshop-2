@@ -47,46 +47,49 @@
 
                     <hr>
 
-                    <li class="flex justify-center">
-                        <a id="disease" href="javascript:;" class="text-sm font-semibold text-blue-500 hover:shadow hover:bg-blue-100 rounded-lg h-12 w-full flex items-center justify-start duration-200 menu" onclick="switch_page(this, 'disease')">
-                            <span class="material-icons px-5">
-                                topic
-                            </span>
-                            Diseases
-                        </a>
-                    </li>
+                    <?php if (session()->get('role') == 1) : ?>
+
+                        <li class="flex justify-center">
+                            <a id="disease" href="javascript:;" class="text-sm font-semibold text-blue-500 hover:shadow hover:bg-blue-100 rounded-lg h-12 w-full flex items-center justify-start duration-200 menu" onclick="switch_page(this, 'disease')">
+                                <span class="material-icons px-5">
+                                    topic
+                                </span>
+                                Diseases
+                            </a>
+                        </li>
 
 
-                    <li class="flex justify-center">
-                        <a id="symptom" href="javascript:;" class="text-sm font-semibold text-blue-500 hover:shadow hover:bg-blue-100 rounded-lg h-12 w-full flex items-center justify-start duration-200 menu" onclick="switch_page(this, 'symptom')">
-                            <span class="material-icons px-5">
-                                list
-                            </span>
-                            Symptoms
-                        </a>
-                    </li>
+                        <li class="flex justify-center">
+                            <a id="symptom" href="javascript:;" class="text-sm font-semibold text-blue-500 hover:shadow hover:bg-blue-100 rounded-lg h-12 w-full flex items-center justify-start duration-200 menu" onclick="switch_page(this, 'symptom')">
+                                <span class="material-icons px-5">
+                                    list
+                                </span>
+                                Symptoms
+                            </a>
+                        </li>
 
-                    <li class="flex justify-center">
-                        <a id="intent" href="javascript:;" class="text-sm font-semibold text-blue-500 hover:shadow hover:bg-blue-100 rounded-lg h-12 w-full flex items-center justify-start duration-200 menu" onclick="switch_page(this, 'tag')">
-                            <span class="material-icons px-5">
-                                text_snippet
-                            </span>
-                            Tags
-                        </a>
-                    </li>
+                        <li class="flex justify-center">
+                            <a id="intent" href="javascript:;" class="text-sm font-semibold text-blue-500 hover:shadow hover:bg-blue-100 rounded-lg h-12 w-full flex items-center justify-start duration-200 menu" onclick="switch_page(this, 'tag')">
+                                <span class="material-icons px-5">
+                                    text_snippet
+                                </span>
+                                Tags
+                            </a>
+                        </li>
 
-                    <hr>
+                        <hr>
 
-                    <li class="flex justify-center">
-                        <a id="disease" href="javascript:;" class="text-sm font-semibold text-blue-500 hover:shadow hover:bg-blue-100 rounded-lg h-12 w-full flex items-center justify-start duration-200 menu" onclick="train_data(this)">
-                            <span class="material-icons px-5">
-                                loop
-                            </span>
-                            Train Data
-                        </a>
-                    </li>
+                        <li class="flex justify-center">
+                            <a id="disease" href="javascript:;" class="text-sm font-semibold text-blue-500 hover:shadow hover:bg-blue-100 rounded-lg h-12 w-full flex items-center justify-start duration-200 menu" onclick="train_data(this)">
+                                <span class="material-icons px-5">
+                                    loop
+                                </span>
+                                Train Data
+                            </a>
+                        </li>
 
-                    <hr>
+                        <hr>
+                    <?php endif; ?>
 
                     <li class="flex justify-center">
                         <a id="reports" href="javascript:;" class="text-sm font-semibold text-blue-500 hover:shadow hover:bg-blue-100 rounded-lg h-12 w-full flex items-center justify-start duration-200 menu" onclick="switch_page(this, 'report')">
@@ -94,17 +97,6 @@
                                 assignment
                             </span>
                             Report
-                        </a>
-                    </li>
-
-                    <hr>
-
-                    <li class="flex justify-center">
-                        <a id="statistic" href="javascript:;" class="text-sm font-semibold text-blue-500 hover:shadow hover:bg-blue-100 rounded-lg h-12 w-full flex items-center justify-start duration-200 menu" onclick="switch_page(this, 'profile')">
-                            <span class=" material-icons px-5">
-                            perm_identity
-                            </span>
-                            Profile
                         </a>
                     </li>
 

@@ -1,6 +1,6 @@
-<div id="chat_section" class="grid grid-cols-1 flex flex-wrap content-between h-screen max-h-screen overflow-y-auto">
+<div class="grid grid-cols-1 flex flex-wrap content-between overflow-y-auto">
     <div class="bg-blue-500 py-8 shadow-md px-5 flex w-full sticky top-0">
-        <div class="text-blue-500 bg-white rounded-full h-14 w-14 flex items-center justify-center duration-200 inline-block" wire:click="switch_page('clinic')">
+        <div class="text-blue-500 bg-white rounded-full h-14 w-14 flex items-center justify-center duration-200 inline-block">
             <svg id="Layer_1" enable-background="new 0 0 128 128" class='w-10 h-10' viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg">
                 <path d="m86.524 82.055v-1.459c0-8.13-6.614-14.745-14.744-14.745h-12.434c-.46-3.959-3.606-7.105-7.565-7.565v-7.274c2.018-.458 3.532-2.258 3.532-4.412 0-2.499-2.033-4.531-4.532-4.531s-4.531 2.033-4.531 4.531c0 2.154 1.514 3.955 3.531 4.412v7.274c-3.959.46-7.105 3.607-7.565 7.565h-12.433c-8.131 0-14.745 6.614-14.745 14.745v1.459c-4.288.498-7.628 4.147-7.628 8.566s3.34 8.067 7.628 8.565v2.027c0 8.13 6.614 14.745 14.745 14.745h41.997c8.13 0 14.744-6.614 14.744-14.745v-2.027c4.288-.498 7.628-4.146 7.628-8.565s-3.34-8.068-7.628-8.566z" fill="#e6e7e8" />
                 <path d="m118.301 16.042h-41.177c-3.467 0-6.288 2.821-6.288 6.288v24.648c0 3.468 2.821 6.29 6.288 6.29h1.96v9.77c0 .394.23.75.59.912.132.059.271.088.41.088.24 0 .477-.086.663-.252l11.861-10.518h25.692c3.468 0 6.289-2.821 6.289-6.29v-24.648c.001-3.467-2.82-6.288-6.288-6.288z" fill="#e6e7e8" />

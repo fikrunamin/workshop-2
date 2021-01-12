@@ -8,7 +8,7 @@ class Chat extends Model
 {
     protected $table = 'chats';
 
-    protected $allowedFields = ['id_user', 'sender', 'message'];
+    protected $allowedFields = ['session', 'sender', 'message'];
 
     protected $useTimestamps = true;
     protected $createdField  = 'created_at';
@@ -16,6 +16,9 @@ class Chat extends Model
 
     public function getChat()
     {
-        return $this->where('id_user', session('id_user'))->findAll();
+        return $this
+        ->join('chat_sessions', 'chat_sessions.session = chats.session', 'left')
+        ->where('chat_sessions.id_user', session('id_user'))
+        ->findAll();
     }
 }

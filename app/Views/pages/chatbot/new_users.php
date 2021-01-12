@@ -1,4 +1,4 @@
-<div class="flex flex-col h-screen max-h-screen items-center justify-center bg-blue-500 ">
+<div class="flex flex-col items-center justify-center bg-blue-500 px-5 py-10">
     <div class="grid grid-cols-1 mb-6 flex justify-center">
         <div class="flex justify-center mb-10">
             <div class="text-blue-500 shadow-lg bg-white rounded-full h-48 w-48 flex items-center justify-center">
@@ -115,7 +115,7 @@
         </div>
 
         <div class="flex justify-center text-center mb-10">
-            <div class="@if (session('secondary_menu_visibility')) w-full max-w-full px-10 @else w-3/5 max-w-3/5 @endif">
+            <div class="w-full">
                 <h2 class="mb-3 text-white font-bold text-4xl">HI, <?= strtoupper(session('data_user')['fullname']); ?>!</h2>
                 <p class="break-words text-white font-thin">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Fuga totam placeat eius consectetur debitis iste reiciendis est vel ex quos dolores assumenda vero laboriosam excepturi esse, harum sit libero doloribus expedita magnam. Illum doloremque sunt rem repellat sed, aliquid sint.</p>
             </div>

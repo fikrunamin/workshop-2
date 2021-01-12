@@ -27,7 +27,7 @@
         </svg>
     </div> -->
     <!-- -->
-    <div id="main_content" class="grid grid-cols-10 w-full gap-5">
+    <div id="main_content" class="grid grid-cols-10 w-full gap-5 bg-blue-100 min-h-screen">
         <div class="flex items-center justify-center">
             <?= view('components/loading'); ?>
         </div>

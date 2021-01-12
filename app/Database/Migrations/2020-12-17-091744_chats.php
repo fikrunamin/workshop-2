@@ -16,10 +16,9 @@ class Chats extends Migration
 				'unsigned' => true,
 				'auto_increment' => true,
 			],
-			'id_user' => [
-				'type' => 'INT',
-				'unsigned' => true,
-				'constraint' => 5,
+			'session' => [
+				'type'           => 'VARCHAR',
+				'constraint'     => 255,
 			],
 			'sender' => [
 				'type' => 'VARCHAR',
@@ -39,7 +38,7 @@ class Chats extends Migration
 
 
 		$this->forge->addKey('id', true);
-		$this->forge->addForeignKey('id_user', 'users', 'id', 'CASCADE', 'CASCADE');
+		$this->forge->addForeignKey('session', 'chat_sessions', 'session', 'CASCADE', 'CASCADE');
 
 		$this->forge->createTable('chats');
 		$this->db->enableForeignKeyChecks();

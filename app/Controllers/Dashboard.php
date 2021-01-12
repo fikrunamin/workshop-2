@@ -6,6 +6,7 @@ use App\Models\Disease;
 use App\Models\Chat;
 use App\Models\Intent;
 use App\Models\Report;
+use Carbon\Carbon;
 use CodeIgniter\I18n\Time;
 use Ramsey\Uuid\Uuid;
 
@@ -30,10 +31,20 @@ class Dashboard extends BaseController
     // Remove on production
     public function test()
     {
-        $report_data = $this->reportModel->getReport();
-        foreach ($report_data[0] as $data) {
-            echo ($data['symptom_name']);
-        }
+        // $report_data = $this->reportModel->getReport();
+        // foreach ($report_data[0] as $data) {
+        //     echo ($data['symptom_name']);
+        // }
+
+        // $chat_session = $this->db->table('chat_sessions')->where('id_user', session('id_user'))->orderBy('started_at', 'DESC')->limit(1)->get()->getResultArray();
+        // if(count($chat_session) > 0){
+        //     if(Carbon::parse($chat_session[0]['started_at'])->diffInSeconds(Time::now()) > 300){
+        //         echo "lebih 5 menit";
+        //     }
+        //     else{
+        //         echo "kurang 5 menit";
+        //     }
+        // }
     }
 
     public function index()
@@ -102,8 +113,17 @@ class Dashboard extends BaseController
             $data = $this->chatModel->getChat();
 
             if (count($data) <= 0) {
+                $new_session = Uuid::uuid1()->toString();
+                session()->set('chat_session', $new_session);
+
+                $this->db->table('chat_sessions')->insert([
+                    'session' => $new_session,
+                    'id_user' => session()->get('id_user'),
+                    'started_at' => Time::now()
+                ]);
+
                 $data = [
-                    "id_user" => session('id_user'),
+                    'session' => $new_session,
                     "sender" => "bot",
                     "message" => "Welcome to Medical Chatbot, Admin. How can we help you today?"
                 ];
@@ -114,17 +134,6 @@ class Dashboard extends BaseController
                 $data = $this->chatModel->getChat();
 
                 $data = $this->groupArrayDate($data, 'created_at');
-
-                $new_session = Uuid::uuid1()->toString();
-                $this->db->table('chat_sessions')->insert([
-                    'session' => $new_session,
-                    'id_user' => session()->get('id_user'),
-                    'started_at' => Time::now()
-                ]);
-                $this->db->table('chat_histories')->insert([
-                    'session' => $new_session,
-                    'id_chat' => $id_chat,
-                ]);
 
                 echo view('pages/chatbot/chat_section', ['data' => $data]);
             } else {
@@ -138,23 +147,35 @@ class Dashboard extends BaseController
     public function send_message()
     {
         if ($this->request->isAJAX()) {
-            $data = $this->chatModel->getChat();
+            // $data = $this->chatModel->getChat(); // Untuk apa?
+
             $message = service('request')->getPost('message');
-            $id_user = session('id_user');
+
+            $chat_session = $this->db->table('chat_sessions')->where('id_user', session('id_user'))->orderBy('started_at', 'DESC')->limit(1)->get()->getResultArray();
+
+            if (count($chat_session) > 0) {
+                if (Carbon::parse($chat_session[0]['started_at'])->diffInSeconds(Time::now()) > 300) {
+                    $chat_session = Uuid::uuid1()->toString();
+                    session()->set('chat_session', $chat_session);
+                    $this->db->table('chat_sessions')->insert([
+                        'session' => $chat_session,
+                        'id_user' => session()->get('id_user'),
+                        'started_at' => Time::now()
+                    ]);
+                } else {
+                    $chat_session = session()->has('chat_session') ? session()->get('chat_session') : $chat_session[0]['session'];
+                }
+            }
 
             $data = [
-                "id_user" => $id_user,
+                "session" => $chat_session,
                 "sender" => "me",
-                "message" => $message
+                "message" => $message,
+                'created_at' => Time::now(),
+                'updated_at' => Time::now(),
             ];
 
-            $this->chatModel->insert($data);
-            $id_chat = $this->chatModel->getInsertID();
-
-            $this->db->table('chat_histories')->insert([
-                'session' => session()->get('session'),
-                'id_chat' => $id_chat
-            ]);
+            $this->db->table('chats')->insert($data);
 
             $client = \Config\Services::curlrequest();
 
@@ -164,7 +185,7 @@ class Dashboard extends BaseController
                 [
                     'form_params' => [
                         'message' => $message,
-                        'session' => session()->get('session'),
+                        'session' => $chat_session,
                     ]
                 ]
             );
@@ -175,12 +196,14 @@ class Dashboard extends BaseController
             ];
 
             $data = [
-                'id_user' => $id_user,
+                "session" => $chat_session,
                 'sender' => 'bot',
                 'message' => $data_response['response'],
+                'created_at' => Time::now(),
+                'updated_at' => Time::now(),
             ];
 
-            $this->chatModel->insert($data);
+            $this->db->table('chats')->insert($data);
 
             echo $data['message'];
         } else {

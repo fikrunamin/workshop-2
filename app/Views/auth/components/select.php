@@ -3,7 +3,7 @@
         <label for="<?= $name ?? strtolower($field); ?>" class="text-sm text-white"><?= $field; ?></label>
     </div>
     <div class="relative">
-        <select name="<?= $name ?? strtolower($field); ?>" id="<?= $name ?? strtolower($field); ?>" class="rounded-full py-2 focus:ring focus:ring-blue-300 w-full appearance-none pl-5 pr-10 outline-none">
+        <select name="<?= $name ?? strtolower($field); ?>" id="<?= $name ?? strtolower($field); ?>" class="rounded-lg py-2 focus:ring focus:ring-blue-300 w-full appearance-none pl-5 pr-10 outline-none duration-200">
             <?php foreach ($options  as $option) : ?>
                 <option value="<?= str_replace('.', '', strtolower($option)); ?>" <?= isset($value) && $value == str_replace('.', '', strtolower($option)) ? 'selected' : ''; ?>><?= $option; ?></option>
             <?php endforeach; ?>
