@@ -29,23 +29,88 @@ class Dashboard extends BaseController
     }
 
     // Remove on production
-    public function test()
-    {
-        // $report_data = $this->reportModel->getReport();
-        // foreach ($report_data[0] as $data) {
-        //     echo ($data['symptom_name']);
-        // }
+    // public function test()
+    // {
+    //     $chat_session = session('chat_session');
+    //     $total_suggestion_replies = $this->db->table('chats')->where('session', session('chat_session'))->where('isSuggestion', '1')->countAllResults();
+    //     $suggestion_rules = session('suggestion_rules');
+    //     $current_suggestion_rule = session('current_suggestion_rule');
 
-        // $chat_session = $this->db->table('chat_sessions')->where('id_user', session('id_user'))->orderBy('started_at', 'DESC')->limit(1)->get()->getResultArray();
-        // if(count($chat_session) > 0){
-        //     if(Carbon::parse($chat_session[0]['started_at'])->diffInSeconds(Time::now()) > 300){
-        //         echo "lebih 5 menit";
-        //     }
-        //     else{
-        //         echo "kurang 5 menit";
-        //     }
-        // }
-    }
+    //     if ($total_suggestion_replies <= count($suggestion_rules)) {
+    //         $symptom = $this->db->table('symptoms')->where('id', $suggestion_rules[$current_suggestion_rule])->get()->getResultArray();
+    //         $bot_message = "Mmm, based on my data, people that have your symptoms are also have " . strtolower($symptom[0]['name']) . ", do you also feel it?";
+    //         $data = [
+    //             "session" => $chat_session,
+    //             'sender' => 'bot',
+    //             'bot_message' => $message,
+    //             'created_at' => Time::now(),
+    //             'updated_at' => Time::now(),
+    //         ];
+    //         $this->db->table('chats')->insert($data);
+
+    //         $data_response['response']['result'] = $bot_message;
+    //         $data_response['response']['symptom'] = $symptom;
+
+    //         session()->set('current_suggestion_rule', $current_suggestion_rule + 1);
+
+    //         $data = [
+    //             "session" => $chat_session,
+    //             "sender" => "me",
+    //             "message" => $message,
+    //             'isSuggestion' => session('isSuggestion'),
+    //             'created_at' => Time::now(),
+    //             'updated_at' => Time::now(),
+    //         ];
+
+    //         $this->db->table('chats')->insert($data);
+
+    //         if (strpos(strtolower(trim($message)), 'yes')) {
+    //             $intents = session('ints');
+    //             array_push($intents, ['intent' => $symptom[0]['name'], 'probability' => "1.0"]);
+    //             session()->set('ints', $intents);
+    //         } else if (strpos(strtolower(trim($message)), 'no')) {
+    //             $bot_message = "Okay, you say no.";
+    //             $data = [
+    //                 "session" => $chat_session,
+    //                 'sender' => 'bot',
+    //                 'message' => $bot_message,
+    //                 'created_at' => Time::now(),
+    //                 'updated_at' => Time::now(),
+    //             ];
+    //             $this->db->table('chats')->insert($data);
+    //         } else {
+    //             $bot_message = "Sorry, I dont understand what you are typing in. I consider you say no.";
+    //             $data = [
+    //                 "session" => $chat_session,
+    //                 'sender' => 'bot',
+    //                 'message' => $bot_message,
+    //                 'created_at' => Time::now(),
+    //                 'updated_at' => Time::now(),
+    //             ];
+    //             $this->db->table('chats')->insert($data);
+    //         }
+
+    //         echo json_encode($data_response);
+    //     } else {
+    //         session()->set('isDone', '1');
+    //         $apiRequest = $client->request(
+    //             'POST',
+    //             'http://localhost:5000/get_response',
+    //             [
+    //                 'form_params' => [
+    //                     'isDone' => session('isDone'),
+    //                     'ints' => session('ints'),
+    //                 ]
+    //             ]
+    //         );
+    //         $data_response = [
+    //             'response' => json_decode($apiRequest->getBody(), true),
+    //             'status' => $apiRequest->getStatusCode(),
+    //             'reason' => $apiRequest->getReason(),
+    //         ];
+    //         echo json_encode($data_response);
+    //     }
+    // }
 
     public function index()
     {
@@ -125,7 +190,7 @@ class Dashboard extends BaseController
                 $data = [
                     'session' => $new_session,
                     "sender" => "bot",
-                    "message" => "Welcome to Medical Chatbot, Admin. How can we help you today?"
+                    "message" => "Welcome to Medical Chatbot, " . session('data_user')['fullname'] . ". How can we help you today?"
                 ];
 
                 $this->chatModel->insert($data);
@@ -155,6 +220,18 @@ class Dashboard extends BaseController
 
             if (count($chat_session) > 0) {
                 if (Carbon::parse($chat_session[0]['started_at'])->diffInSeconds(Time::now()) > 300) {
+
+                    $data = [
+                        "session" => $chat_session[0]['session'],
+                        "sender" => "bot",
+                        "message" => 'Your previous session is over. Chat session restarted.',
+                        'isSuggestion' => '0',
+                        'created_at' => Time::now(),
+                        'updated_at' => Time::now(),
+                    ];
+
+                    $this->db->table('chats')->insert($data);
+
                     $chat_session = Uuid::uuid1()->toString();
                     session()->set('chat_session', $chat_session);
                     $this->db->table('chat_sessions')->insert([
@@ -167,45 +244,203 @@ class Dashboard extends BaseController
                 }
             }
 
-            $data = [
-                "session" => $chat_session,
-                "sender" => "me",
-                "message" => $message,
-                'created_at' => Time::now(),
-                'updated_at' => Time::now(),
-            ];
-
-            $this->db->table('chats')->insert($data);
-
             $client = \Config\Services::curlrequest();
 
-            $apiRequest = $client->request(
-                'POST',
-                'http://localhost:5000/get_response',
-                [
-                    'form_params' => [
-                        'message' => $message,
-                        'session' => $chat_session,
+
+            if (session('isSuggestion') == "0") {
+                $data = [
+                    "session" => $chat_session,
+                    "sender" => "me",
+                    "message" => $message,
+                    'isSuggestion' => session('isSuggestion'),
+                    'created_at' => Time::now(),
+                    'updated_at' => Time::now(),
+                ];
+
+                $this->db->table('chats')->insert($data);
+
+                $total_suggestion_replies = $this->db->table('chats')->where('session', session('chat_session'))->where('isSuggestion', '1')->countAllResults();
+
+                $form = [
+                    'message' => $message,
+                    'chat_session' => $chat_session,
+                    'total_suggestion_replies' => $total_suggestion_replies,
+                    'ints' => session('ints'),
+                    'suggestion_rules' => session('suggestion_rules'),
+                    'current_suggestion_rule' => session('current_suggestion_rule') + 1,
+                    'isDone' => '0'
+                ];
+
+                $apiRequest = $client->request(
+                    'POST',
+                    'http://localhost:5000/get_response',
+                    [
+                        'form_params' => $form
                     ]
-                ]
-            );
-            $data_response = [
-                'response' => $apiRequest->getBody(),
-                'status' => $apiRequest->getStatusCode(),
-                'reason' => $apiRequest->getReason(),
-            ];
+                );
+                $data_response = [
+                    'response' => json_decode($apiRequest->getBody(), true),
+                    'status' => $apiRequest->getStatusCode(),
+                    'reason' => $apiRequest->getReason(),
+                ];
 
-            $data = [
-                "session" => $chat_session,
-                'sender' => 'bot',
-                'message' => $data_response['response'],
-                'created_at' => Time::now(),
-                'updated_at' => Time::now(),
-            ];
+                session()->set('isSuggestion', $data_response['response']['isSuggestion']);
+                session()->set('ints', $data_response['response']['prediction']['ints']);
 
-            $this->db->table('chats')->insert($data);
+                session()->set('suggestion_rules', $data_response['response']['suggestion_rules']);
+                session()->set('current_suggestion_rule', $data_response['response']['current_suggestion_rule']);
 
-            echo $data['message'];
+                $data = [
+                    "session" => $chat_session,
+                    'sender' => 'bot',
+                    'message' => $data_response['response']['result'],
+                    'created_at' => Time::now(),
+                    'updated_at' => Time::now(),
+                ];
+
+                $this->db->table('chats')->insert($data);
+
+                echo json_encode($data_response);
+            } else {
+                $total_suggestion_replies = $this->db->table('chats')->where('session', session('chat_session'))->where('isSuggestion', '1')->countAllResults();
+                $suggestion_rules = session('suggestion_rules');
+                $current_suggestion_rule = session('current_suggestion_rule');
+
+                if ($total_suggestion_replies <= count($suggestion_rules)) {
+                    $symptom = $this->db->table('symptoms')->where('id', $suggestion_rules[$current_suggestion_rule])->get()->getResultArray();
+                    $bot_message = "Mmm, based on my data, people that have your symptoms are also have " . strtolower($symptom[0]['name']) . ", do you also feel it?";
+                    $data = [
+                        "session" => $chat_session,
+                        'sender' => 'bot',
+                        'message' => $bot_message,
+                        'created_at' => Time::now(),
+                        'updated_at' => Time::now(),
+                    ];
+                    $this->db->table('chats')->insert($data);
+
+                    $data_response['response']['result'] = $bot_message;
+                    $data_response['response']['symptom'] = $symptom;
+
+                    session()->set('current_suggestion_rule', $current_suggestion_rule + 1);
+
+                    $data = [
+                        "session" => $chat_session,
+                        "sender" => "me",
+                        "message" => $message,
+                        'isSuggestion' => session('isSuggestion'),
+                        'created_at' => Time::now(),
+                        'updated_at' => Time::now(),
+                    ];
+
+                    $this->db->table('chats')->insert($data);
+
+                    if (strpos(strtolower(trim($message)), 'yes')) {
+                        $intents = session('ints');
+                        array_push($intents, ['intent' => $symptom[0]['name'], 'probability' => "1.0"]);
+                        session()->set('ints', $intents);
+                    } else if (strpos(strtolower(trim($message)), 'no')) {
+                        $bot_message = "Okay, you say no.";
+                        $data = [
+                            "session" => $chat_session,
+                            'sender' => 'bot',
+                            'message' => $bot_message,
+                            'created_at' => Time::now(),
+                            'updated_at' => Time::now(),
+                        ];
+                        $this->db->table('chats')->insert($data);
+                    } else {
+                        $bot_message = "Sorry, I dont understand what you are typing in. I consider you say no.";
+                        $data = [
+                            "session" => $chat_session,
+                            'sender' => 'bot',
+                            'message' => $bot_message,
+                            'created_at' => Time::now(),
+                            'updated_at' => Time::now(),
+                        ];
+                        $this->db->table('chats')->insert($data);
+                    }
+
+                    $total_suggestion_replies = $this->db->table('chats')->where('session', session('chat_session'))->where('isSuggestion', '1')->countAllResults();
+                    if ($total_suggestion_replies == count($suggestion_rules)) {
+                        session()->set('isDone', '1');
+                        $apiRequest = $client->request(
+                            'POST',
+                            'http://localhost:5000/get_response',
+                            [
+                                'form_params' => [
+                                    'isDone' => session('isDone'),
+                                    'ints' => json_encode(session('ints')),
+                                ]
+                            ]
+                        );
+                        $data_response = [
+                            'response' => json_decode($apiRequest->getBody(), true),
+                            'status' => $apiRequest->getStatusCode(),
+                            'reason' => $apiRequest->getReason(),
+                        ];
+
+                        $data = [
+                            "session" => $chat_session[0]['session'],
+                            "sender" => "bot",
+                            "message" => 'Your previous session is over. Chat session restarted.',
+                            'isSuggestion' => '0',
+                            'created_at' => Time::now(),
+                            'updated_at' => Time::now(),
+                        ];
+
+                        $this->db->table('chats')->insert($data);
+
+                        $chat_session = Uuid::uuid1()->toString();
+                        session()->set('chat_session', $chat_session);
+                        $this->db->table('chat_sessions')->insert([
+                            'session' => $chat_session,
+                            'id_user' => session()->get('id_user'),
+                            'started_at' => Time::now()
+                        ]);
+
+                        session()->set('isDone', '0');
+                    }
+                    echo json_encode($data_response);
+                } else {
+                    session()->set('isDone', '1');
+                    $apiRequest = $client->request(
+                        'POST',
+                        'http://localhost:5000/get_response',
+                        [
+                            'form_params' => [
+                                'isDone' => session('isDone'),
+                            ],
+                            'json' => ['ints' => json_encode(session('ints')),]
+                        ]
+                    );
+                    $data_response = [
+                        'response' => json_decode($apiRequest->getBody(), true),
+                        'status' => $apiRequest->getStatusCode(),
+                        'reason' => $apiRequest->getReason(),
+                    ];
+
+                    $data = [
+                        "session" => $chat_session[0]['session'],
+                        "sender" => "bot",
+                        "message" => 'Your previous session is over. Chat session restarted.',
+                        'isSuggestion' => '0',
+                        'created_at' => Time::now(),
+                        'updated_at' => Time::now(),
+                    ];
+
+                    $this->db->table('chats')->insert($data);
+
+                    $chat_session = Uuid::uuid1()->toString();
+                    session()->set('chat_session', $chat_session);
+                    $this->db->table('chat_sessions')->insert([
+                        'session' => $chat_session,
+                        'id_user' => session()->get('id_user'),
+                        'started_at' => Time::now()
+                    ]);
+
+                    session()->set('isDone', '0');
+                }
+            }
         } else {
             throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
         }
@@ -615,11 +850,12 @@ class Dashboard extends BaseController
                 [
                     'form_params' => [
                         'message' => $message,
-                        'session' => session()->get('session'),
+                        'chat_session' => session()->get('chat_session'),
                     ]
                 ]
             );
             $data = [
+                'allresponse' => $apiRequest->getBody(),
                 'response' => $apiRequest->getBody(),
                 'status' => $apiRequest->getStatusCode(),
                 'reason' => $apiRequest->getReason(),

@@ -149,7 +149,7 @@
                     <?= view('auth/components/input', ['field' => 'Confirm Password', 'type' => 'password', 'name' => 'confirm_password', 'icon' => '']); ?>
                 </div>
                 <div class="col-span-full">
-                    <button type="submit" class="text-center w-full bg-white text-blue-500 shadow-md font-bold py-2 rounded-full mt-5">CREATE MY ACCOUNT</button>
+                    <button type="submit" class="text-center w-full bg-white text-blue-500 shadow-md font-bold py-2 rounded-lg mt-5">CREATE MY ACCOUNT</button>
                 </div>
                 <div class="col-span-full flex justify-center">
                     <a href="<?= route_to('login'); ?>" class="text-white text-sm mt-5">Have an account? <span class="font-bold">Login</span></a>

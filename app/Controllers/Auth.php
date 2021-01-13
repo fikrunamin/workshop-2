@@ -179,6 +179,8 @@ class Auth extends BaseController
             'logged_in' => TRUE,
             'data_user' => $data_user,
             'page' => 'home',
+            'isSuggestion' => '0',
+            'isDone' => '0'
         ];
         $session->set($ses_data);
         return $ses_data;

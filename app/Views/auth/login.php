@@ -145,7 +145,7 @@
                     <?= view('auth/components/input', ['field' => 'Password', 'type' => 'password', 'icon' => '']); ?>
                 </div>
                 <div class="col-span-full">
-                    <button type="submit" class="text-center w-full bg-white text-blue-500 shadow-md font-bold py-2 rounded-full mt-5">LOGIN</button>
+                    <button type="submit" class="text-center w-full bg-white text-blue-500 shadow-md font-bold py-2 rounded-lg mt-5">LOGIN</button>
                 </div>
                 <div class="col-span-full flex justify-center">
                     <a href="<?= route_to('register'); ?>" class="text-white text-sm mt-5">Don't have an account? <span class="font-bold">Create account</span></a>

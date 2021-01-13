@@ -569,10 +569,12 @@
                 message: message
             },
             success: function(data) {
+                data = JSON.parse(data)
+                console.log(data)
                 $("#chatbot_messages").append(`
                     <li class="w-full max-w-full flex justify-start mb-5">
                         <div class="max-w-sm bg-gray-100 py-3 px-5 rounded-3xl">
-                            <p>${data}</p>
+                            <p>${data.response.result}</p>
                             <p class="w-full text-right text-xs font-semibold mt-1 text-black text-opacity-50">${getTimeNow()}</p>
                         </div>
                     </li>

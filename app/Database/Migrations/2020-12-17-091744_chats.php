@@ -28,6 +28,10 @@ class Chats extends Migration
 				'type' => 'TEXT',
 				'null' => true,
 			],
+			'isSuggestion' => [
+				'type' => 'BOOLEAN',
+				'default' => '0',
+			],
 			'created_at' => [
 				'type' => 'DATETIME'
 			],
